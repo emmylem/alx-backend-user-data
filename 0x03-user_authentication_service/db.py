@@ -38,7 +38,7 @@ class DB:
         self._session.add(new_user)
         self._session.commit()  # update the DataBase
 
-        return user
+        return new_user
 
     def find_user_by(self, **kwargs) -> User:
         """Find a user in the database based on keyword arguments."""
@@ -47,7 +47,7 @@ class DB:
             query = self._session.query(User)
             # Apply filters based on keyword arguments
             for k, v in kwargs.items():
-                query = query.filter_by(**{key: value})
+                query = query.filter_by(**{k: v})
 
             # Retrieve the first result
             user = query.first()
