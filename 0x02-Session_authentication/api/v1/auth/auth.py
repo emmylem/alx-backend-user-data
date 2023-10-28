@@ -1,11 +1,14 @@
 #!/usr/bin/env python3
-""" API authentication """
-from flask import request
+""" Auth module
+"""
 from typing import List, TypeVar
+from flask import request
+import os
 
 
-class Auth():
-    """ Class that manages api authentication"""
+class Auth:
+    """ Auth class
+    """
 
     def require_auth(self, path: str, excluded_paths: List[str]) -> bool:
         """ Returns False
@@ -35,12 +38,25 @@ class Auth():
         return True
 
     def authorization_header(self, request=None) -> str:
-        """ header check """
+        """ Return None
+        """
         if request is None:
             return None
 
-        return request.headers.get('Authorization', None)
+        return request.headers.get("Authorization", None)
 
     def current_user(self, request=None) -> TypeVar('User'):
-        """ current user """
+        """ Return None
+        """
         return None
+
+    def session_cookie(self, request=None):
+        """ Get the cookie
+        """
+        if request is None:
+            return
+
+        if os.getenv('SESSION_NAME') is None:
+            return
+
+        return request.cookies.get(os.getenv('SESSION_NAME'))
